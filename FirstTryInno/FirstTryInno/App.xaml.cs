@@ -14,8 +14,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using View;
 
-namespace FirstTryInno
+namespace MealApp
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -104,5 +105,7 @@ namespace FirstTryInno
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+
     }
 }

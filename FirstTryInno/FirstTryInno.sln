@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstTryInno", "FirstTryInno\FirstTryInno.csproj", "{D2C5D29A-85A4-4FCD-97EA-EB64682D788B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealApp", "FirstTryInno\MealApp.csproj", "{D2C5D29A-85A4-4FCD-97EA-EB64682D788B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

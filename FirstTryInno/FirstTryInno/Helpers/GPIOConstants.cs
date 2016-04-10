@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FirstTryInno.Helpers
+namespace Helpers
 {
     public class GPIOConstants
     {

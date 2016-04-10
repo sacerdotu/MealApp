@@ -1,14 +1,12 @@
 ﻿using System;
 using Windows.Devices.Gpio;
-using Windows.UI.Xaml;
-using FirstTryInno.Helpers;
+using Helpers;
 
-namespace FirstTryInno.ViewModel
+namespace ViewModel
 {
-    public class MainPageViewModel 
+    public class MainPageViewModel : NotificationBase
     {
-
-#region Private Members 
+        #region Members 
 
         private GpioPin _buttonLike;
         private GpioPin _buttonDisLike;
@@ -17,9 +15,6 @@ namespace FirstTryInno.ViewModel
         private GpioController _ioController;
         private string _customText;
 
-#endregion
-
-        public event EventHandler Changed;
         public string CustomText
         {
             get
@@ -28,16 +23,19 @@ namespace FirstTryInno.ViewModel
             }
             set
             {
-                _customText = value;
-                OnChanged(EventArgs.Empty);
+                SetProperty(ref _customText, value);
             }
         }
 
+        #endregion
+        
         public MainPageViewModel()
         {
             InitGpio();
         }
-        
+
+        #region I/O 
+
         private void InitGpio()
         {
             _ioController = GpioController.GetDefault();
@@ -46,7 +44,7 @@ namespace FirstTryInno.ViewModel
                 CustomText = "GPIO failed...";
                 return;
             }
-
+            CustomText = "GPIO was successfully started...";
             InitButtons();
         }
 
@@ -62,7 +60,7 @@ namespace FirstTryInno.ViewModel
             SetButtonBehaviour(_buttonLike);
             SetButtonBehaviour(_buttonDisLike);
 
-            // Connect them to thei handlers.
+            // Connect them to their handlers.
             _buttonUp.ValueChanged += _buttonUp_ValueChanged;
             _buttonDown.ValueChanged += _buttonDown_ValueChanged;
             _buttonLike.ValueChanged += _buttonLike_ValueChanged;
@@ -71,9 +69,9 @@ namespace FirstTryInno.ViewModel
 
         private static void SetButtonBehaviour(GpioPin btn)
         {
-            if(btn == null)
+            if (btn == null)
                 return;
-            
+
             // Check if input pull-up resistors are supported
             if (btn.IsDriveModeSupported(GpioPinDriveMode.InputPullUp))
                 btn.SetDriveMode(GpioPinDriveMode.InputPullUp);
@@ -84,13 +82,18 @@ namespace FirstTryInno.ViewModel
             btn.DebounceTimeout = TimeSpan.FromMilliseconds(50);
         }
 
-#region Event Handlers
+        #endregion
+
+        #region Event Handlers
 
         private void _buttonUp_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
         {
             if (args.Edge == GpioPinEdge.FallingEdge)
             {
-                CustomText = "Button Up was pressed...";
+                Dispatcher.InvokeOnUI(() =>
+                {
+                    CustomText = "Button Up was pressed...";
+                });
             }
         }
 
@@ -98,7 +101,10 @@ namespace FirstTryInno.ViewModel
         {
             if (args.Edge == GpioPinEdge.FallingEdge)
             {
-                CustomText = "Button Down was pressed...";
+                Dispatcher.InvokeOnUI(() =>
+                {
+                    CustomText = "Button Down was pressed...";
+                });
             }
         }
 
@@ -106,7 +112,10 @@ namespace FirstTryInno.ViewModel
         {
             if (args.Edge == GpioPinEdge.FallingEdge)
             {
-                CustomText = "Button Like was pressed...";
+                Dispatcher.InvokeOnUI(() =>
+                {
+                    CustomText = "Button Like was pressed...";
+                });
             }
         }
 
@@ -114,16 +123,13 @@ namespace FirstTryInno.ViewModel
         {
             if (args.Edge == GpioPinEdge.FallingEdge)
             {
-                CustomText = "Button DisLike was pressed...";
+                Dispatcher.InvokeOnUI(() =>
+                {
+                    CustomText = "Button DisLike was pressed...";
+                });
             }
         }
 
 #endregion
-
-        // Invoke the Changed event; called whenever list changes:
-        protected virtual void OnChanged(EventArgs e)
-        {
-            Changed?.Invoke(this, e);
-        }
     }
 }

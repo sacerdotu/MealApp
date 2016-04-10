@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/FirstTryInno/FirstTryInno/obj/ARM/Debug
+/FirstTryInno/FirstTryInno/bin/ARM/Debug
