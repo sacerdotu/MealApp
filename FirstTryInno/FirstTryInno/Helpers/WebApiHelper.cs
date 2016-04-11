@@ -40,10 +40,10 @@ namespace Helpers
         private async void AddProduct()
         {
             ProviderMenuItem p = new ProviderMenuItem();
-            p.Id = 3;
+            p.ProviderMenuItemID = 3;
             p.Name = "Sarmale";
-            p.Like = 5;
-            p.Dislike = 5;
+            p.LikeCount = 5;
+            p.DislikeCount = 5;
             using (var client = new HttpClient())
             {
                 var serializedProduct = JsonConvert.SerializeObject(p);
@@ -58,16 +58,16 @@ namespace Helpers
         private async void UpdateProduct()
         {
             ProviderMenuItem p = new ProviderMenuItem();
-            p.Id = 3;
+            p.ProviderMenuItemID = 3;
             p.Name = "Ciorba";
-            p.Like = 5;
-            p.Dislike = 5;
+            p.LikeCount = 5;
+            p.DislikeCount = 5;
 
             using (var client = new HttpClient())
             {
                 var serializedProduct = JsonConvert.SerializeObject(p);
                 var content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
-                var result = await client.PutAsync(String.Format("{0}/{1}", URI, p.Id), content);
+                var result = await client.PutAsync(String.Format("{0}/{1}", URI, p.ProviderMenuItemID), content);
             }
             GetAllProducts();
         }
