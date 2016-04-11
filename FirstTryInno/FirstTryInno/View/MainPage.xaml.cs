@@ -14,12 +14,12 @@ namespace View
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPageViewModel ViewModel;
+        public MainPageViewModel PageViewModel;
 
         public MainPage()
         {
             InitializeComponent();
-            ViewModel = new MainPageViewModel();
+            PageViewModel = new MainPageViewModel();
         }
     }
 }

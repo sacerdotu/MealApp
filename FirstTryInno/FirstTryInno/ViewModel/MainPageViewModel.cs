@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Devices.Gpio;
 using Helpers;
+using System.Collections.ObjectModel;
 
 namespace ViewModel
 {
@@ -14,6 +15,8 @@ namespace ViewModel
         private GpioPin _buttonDown;
         private GpioController _ioController;
         private string _customText;
+        private ObservableCollection<MenuItemViewModel> _menuItemsViewModel;
+        private int _selectedIndex;
 
         public string CustomText
         {
@@ -27,11 +30,42 @@ namespace ViewModel
             }
         }
 
-        #endregion
+        public ObservableCollection<MenuItemViewModel> MenuItemsViewModel
+        {
+            get { return _menuItemsViewModel; }
+            set { SetProperty(ref _menuItemsViewModel, value); }
+        }
         
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                if (SetProperty(ref _selectedIndex, value))
+                {
+                    RaisePropertyChanged(nameof(SelectedMenuItem));
+                }
+            }
+        }
+
+        public MenuItemViewModel SelectedMenuItem
+        {
+            get { return (_selectedIndex >= 0 && _selectedIndex < _menuItemsViewModel.Count) ? _menuItemsViewModel[_selectedIndex] : null; }
+        }
+
+        #endregion
+
         public MainPageViewModel()
         {
             InitGpio();
+            _menuItemsViewModel = new ObservableCollection<MenuItemViewModel>();
+            var list = WebApiHelper.GetAllProducts();
+            foreach(var item in list)
+            {
+                MenuItemsViewModel.Add(new MenuItemViewModel(item));
+            }
+
+            SelectedIndex = -1;
         }
 
         #region I/O 
@@ -92,7 +126,8 @@ namespace ViewModel
             {
                 Dispatcher.InvokeOnUI(() =>
                 {
-                    CustomText = "Button Up was pressed...";
+                    if (SelectedIndex - 1 >= 0)
+                        SelectedIndex--;                    
                 });
             }
         }
@@ -103,7 +138,8 @@ namespace ViewModel
             {
                 Dispatcher.InvokeOnUI(() =>
                 {
-                    CustomText = "Button Down was pressed...";
+                    if (_menuItemsViewModel.Count > SelectedIndex + 1)
+                        SelectedIndex++;
                 });
             }
         }

@@ -8,10 +8,49 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="{x:Bind ViewModel.CustomText, Mode=TwoWay}" 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!--
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+        -->
+        <StackPanel Grid.Column="0" 
+                    Orientation="Vertical">
+            
+            <ListView  x:Name="MainList" 
+              ItemsSource="{x:Bind PageViewModel.MenuItemsViewModel, Mode=OneWay}"  
+              SelectedIndex="{x:Bind PageViewModel.SelectedIndex, Mode=TwoWay}" 
+              MinWidth="250" Margin="5">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:MenuItemViewModel" >
+                                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+          <!--  <TextBlock Text="{x:Bind ViewModel.CustomText, Mode=TwoWay}" 
                        TextAlignment="Center"
-                       FontSize="30"/>
+                       FontSize="30"/>-->
+        </StackPanel>
+        
+        <!--Selected item info-->
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            
+            <TextBox 
+              Text="{x:Bind PageViewModel.SelectedMenuItem.Id, Mode=TwoWay, FallbackValue=0}" 
+              Margin="5" />
+            
+            
+            <TextBox 
+              Text="{x:Bind PageViewModel.SelectedMenuItem.Name, Mode=TwoWay, FallbackValue='Empty'}" 
+              Margin="5" />
+            
+            <TextBox 
+              Text="{x:Bind PageViewModel.CustomText, Mode=TwoWay, FallbackValue='Empty'}" 
+              Margin="5" />
+            <!--<Button Content="Delete" Click="{x:Bind Organization.Delete}" Margin="5" />-->
         </StackPanel>
     </Grid>
 </Page>

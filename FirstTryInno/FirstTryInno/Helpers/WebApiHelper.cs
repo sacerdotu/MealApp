@@ -4,30 +4,37 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using FirstTryInno.Models;
+using Models;
 using Newtonsoft.Json;
 
-namespace FirstTryInno.Helpers
+namespace Helpers
 {
     public class WebApiHelper
     {
         string URI = "http://localhost:1863/api/product";
 
-        private async void GetAllProducts()
+        public static List<ProviderMenuItem> GetAllProducts()
         {
-            using (var client = new HttpClient())
-            {
-                using (var response = await client.GetAsync(URI))
+            return new List<ProviderMenuItem>()
                 {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var productJsonString = await response.Content.ReadAsStringAsync();
+                    new ProviderMenuItem() { Name="Shaorma cu de'toate", Id=1, Date = DateTime.Now },
+                    new ProviderMenuItem() { Name="Kebab si shaorma la pachet", Id=2, Date = DateTime.Now },
+                    new ProviderMenuItem() { Name="Nici pizza nici cola", Id=3, Date = DateTime.Now }
+                };
 
-                        //dataGridView1.DataSource = JsonConvert.DeserializeObject<Product[]>(productJsonString).ToList();
+            //using (var client = new HttpClient())
+            //{
+            //    using (var response = await client.GetAsync(URI))
+            //    {
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            var productJsonString = await response.Content.ReadAsStringAsync();
 
-                    }
-                }
-            }
+            //            //dataGridView1.DataSource = JsonConvert.DeserializeObject<Product[]>(productJsonString).ToList();
+
+            //        }
+            //    }
+            //}
         }
 
         private async void AddProduct()

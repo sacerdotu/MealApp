@@ -103,6 +103,7 @@
     <Compile Include="Helpers\WebApiHelper.cs" />
     <Compile Include="Models\ProviderMenuItem.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
+    <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\NotificationBase.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
