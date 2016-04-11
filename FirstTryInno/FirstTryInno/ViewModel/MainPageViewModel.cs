@@ -2,6 +2,9 @@
 using Windows.Devices.Gpio;
 using Helpers;
 using System.Collections.ObjectModel;
+using Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ViewModel
 {
@@ -59,7 +62,12 @@ namespace ViewModel
         {
             InitGpio();
             _menuItemsViewModel = new ObservableCollection<MenuItemViewModel>();
-            var list = WebApiHelper.GetAllProducts();
+            // new List<ProviderMenuItem>();
+
+            Task<List<ProviderMenuItem>> task = Task.Run(() => WebApiHelper.GetAllProducts());
+            task.Wait();
+
+            var list = task.Result;
             foreach(var item in list)
             {
                 MenuItemsViewModel.Add(new MenuItemViewModel(item));

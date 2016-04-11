@@ -21,10 +21,10 @@ namespace ViewModel
             set { SetProperty(This.Name, value, () => This.Name = value); }
         }
 
-        public int Id
+        public long Id
         {
-            get { return This.Id; }
-            set { SetProperty(This.Id, value, () => This.Id = value); }
+            get { return This.ProviderMenuItemID; }
+            set { SetProperty(This.ProviderMenuItemID, value, () => This.ProviderMenuItemID = value); }
         }
     }
 }

@@ -11,30 +11,30 @@ namespace Helpers
 {
     public class WebApiHelper
     {
-        string URI = "http://localhost:1863/api/product";
+        const string URI = "http://192.168.0.12:8765/api/providermenuitem/today";
 
-        public static List<ProviderMenuItem> GetAllProducts()
+        public static async Task<List<ProviderMenuItem>> GetAllProducts()
         {
-            return new List<ProviderMenuItem>()
-                {
-                    new ProviderMenuItem() { Name="Shaorma cu de'toate", Id=1, Date = DateTime.Now },
-                    new ProviderMenuItem() { Name="Kebab si shaorma la pachet", Id=2, Date = DateTime.Now },
-                    new ProviderMenuItem() { Name="Nici pizza nici cola", Id=3, Date = DateTime.Now }
-                };
-
-            //using (var client = new HttpClient())
-            //{
-            //    using (var response = await client.GetAsync(URI))
+            //return new List<ProviderMenuItem>()
             //    {
-            //        if (response.IsSuccessStatusCode)
-            //        {
-            //            var productJsonString = await response.Content.ReadAsStringAsync();
+            //        new ProviderMenuItem() { Name="Shaorma cu de'toate", ProviderMenuItemID=1, Date = DateTime.Now },
+            //        new ProviderMenuItem() { Name="Kebab si shaorma la pachet", ProviderMenuItemID=2, Date = DateTime.Now },
+            //        new ProviderMenuItem() { Name="Nici pizza nici cola", ProviderMenuItemID=3, Date = DateTime.Now }
+            //    };
 
-            //            //dataGridView1.DataSource = JsonConvert.DeserializeObject<Product[]>(productJsonString).ToList();
+            using (var client = new HttpClient())
+            {
+                using (var response = await client.GetAsync(URI))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var productJsonString = await response.Content.ReadAsStringAsync();
 
-            //        }
-            //    }
-            //}
+                        return JsonConvert.DeserializeObject<ProviderMenuItem[]>(productJsonString).ToList();
+                    }
+                }
+            }
+            return null;
         }
 
         private async void AddProduct()
