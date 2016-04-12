@@ -15,10 +15,33 @@ namespace ViewModel
         {
         }
 
+        public void Reset(ProviderMenuItem newObject)
+        {
+            if (newObject == null)
+                return;
+
+            Id = newObject.ProviderMenuItemID;
+            Name = newObject.Name;
+            LikeCount = newObject.LikeCount;
+            DislikeCount = newObject.DislikeCount;
+        }
+
         public String Name
         {
             get { return This.Name; }
             set { SetProperty(This.Name, value, () => This.Name = value); }
+        }
+
+        public int LikeCount
+        {
+            get { return This.LikeCount; }
+            set { SetProperty(This.LikeCount, value, () => This.LikeCount = value); }
+        }
+
+        public int DislikeCount
+        {
+            get { return This.DislikeCount; }
+            set { SetProperty(This.DislikeCount, value, () => This.DislikeCount = value); }
         }
 
         public long Id

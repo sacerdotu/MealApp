@@ -20,14 +20,19 @@
         -->
         <StackPanel Grid.Column="0" 
                     Orientation="Vertical">
-            
+            <!--SelectedItem="{x:Bind PageViewModel.SelectedMenuItem, Mode=TwoWay}"-->
             <ListView  x:Name="MainList" 
               ItemsSource="{x:Bind PageViewModel.MenuItemsViewModel, Mode=OneWay}"  
               SelectedIndex="{x:Bind PageViewModel.SelectedIndex, Mode=TwoWay}" 
+              
               MinWidth="250" Margin="5">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:MenuItemViewModel" >
-                                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                            <TextBlock Text="{x:Bind LikeCount, Mode=TwoWay}" Width="20" />
+                            <TextBlock Text="{x:Bind DislikeCount, Mode=TwoWay}" Width="20" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

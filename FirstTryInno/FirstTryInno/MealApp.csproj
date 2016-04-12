@@ -101,6 +101,7 @@
     <Compile Include="Helpers\Dispatcher.cs" />
     <Compile Include="Helpers\GPIOConstants.cs" />
     <Compile Include="Helpers\WebApiHelper.cs" />
+    <Compile Include="Helpers\WebApiLinks.cs" />
     <Compile Include="Models\ProviderMenuItem.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />

@@ -10,6 +10,7 @@ namespace ViewModel
 {
     public class NotificationBase : INotifyPropertyChanged
     {
+        // PropertyChanged event.
         public event PropertyChangedEventHandler PropertyChanged;
 
         // SetField (Name, value); // where there is a data member
@@ -33,7 +34,8 @@ namespace ViewModel
             return true;
         }
 
-        protected void RaisePropertyChanged(string property)
+        // PropertyChanged event triggering method.
+        protected void RaisePropertyChanged([CallerMemberName] string property = null)
         {
             if (PropertyChanged != null)
             {

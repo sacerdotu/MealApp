@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FirstTryInno.Helpers;
 
 namespace ViewModel
 {
@@ -38,7 +39,7 @@ namespace ViewModel
             get { return _menuItemsViewModel; }
             set { SetProperty(ref _menuItemsViewModel, value); }
         }
-        
+
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -53,7 +54,7 @@ namespace ViewModel
 
         public MenuItemViewModel SelectedMenuItem
         {
-            get { return (_selectedIndex >= 0 && _selectedIndex < _menuItemsViewModel.Count) ? _menuItemsViewModel[_selectedIndex] : null; }
+            get { return (_selectedIndex >= 0 && _selectedIndex < MenuItemsViewModel.Count) ? MenuItemsViewModel[_selectedIndex] : null; }
         }
 
         #endregion
@@ -62,19 +63,27 @@ namespace ViewModel
         {
             InitGpio();
             _menuItemsViewModel = new ObservableCollection<MenuItemViewModel>();
-            // new List<ProviderMenuItem>();
 
+            LoadData();
+
+            SelectedIndex = -1;
+        }
+
+        #region Data Handling Methods
+
+        private void LoadData()
+        {
             Task<List<ProviderMenuItem>> task = Task.Run(() => WebApiHelper.GetAllProducts());
             task.Wait();
 
             var list = task.Result;
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 MenuItemsViewModel.Add(new MenuItemViewModel(item));
             }
-
-            SelectedIndex = -1;
         }
+
+        #endregion
 
         #region I/O 
 
@@ -135,7 +144,7 @@ namespace ViewModel
                 Dispatcher.InvokeOnUI(() =>
                 {
                     if (SelectedIndex - 1 >= 0)
-                        SelectedIndex--;                    
+                        SelectedIndex--;
                 });
             }
         }
@@ -156,10 +165,20 @@ namespace ViewModel
         {
             if (args.Edge == GpioPinEdge.FallingEdge)
             {
-                Dispatcher.InvokeOnUI(() =>
+                if (SelectedMenuItem != null)
                 {
-                    CustomText = "Button Like was pressed...";
-                });
+                    var task = Task.Run(() => WebApiHelper.UpdateProduct(SelectedMenuItem.Id, true) );
+                    task.Wait();
+
+                    if (task.Result != null)
+                    {
+                        Dispatcher.InvokeOnUI(() =>
+                        {
+                            SelectedMenuItem.Reset(task.Result);
+                            CustomText = "Button Like was pressed...";
+                        });
+                    }
+                }
             }
         }
 
@@ -167,13 +186,23 @@ namespace ViewModel
         {
             if (args.Edge == GpioPinEdge.FallingEdge)
             {
-                Dispatcher.InvokeOnUI(() =>
+                if (SelectedMenuItem != null)
                 {
-                    CustomText = "Button DisLike was pressed...";
-                });
+                    var task = Task.Run(() => WebApiHelper.UpdateProduct(SelectedMenuItem.Id, false));
+                    task.Wait();
+
+                    if (task.Result != null)
+                    {
+                        Dispatcher.InvokeOnUI(() =>
+                        {
+                            SelectedMenuItem.Reset(task.Result);
+                            CustomText = "Button DisLike was pressed...";
+                        });
+                    }
+                }
             }
         }
 
-#endregion
+        #endregion
     }
 }
