@@ -5,11 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:MealApp.ViewModel"
-    xmlns:Charts="using:DevExpress.UI.Xaml.Charts"
-   
+    xmlns:charts="using:DevExpress.UI.Xaml.Charts"
+    xmlns:controls="using:MealApp.Controls"
     mc:Ignorable="d">
+
     <Page.Resources>
-        <Style x:Key="CommonPieChartStyle" TargetType="Charts:PieChart" >
+        <Style x:Key="CommonPieChartStyle" TargetType="charts:PieChart" >
             <Setter Property="ToolTipEnabled" Value="True" />
             <Setter Property="MinIndentBetweenSeries" Value="50" />
             <Setter Property="Transitions">
@@ -22,56 +23,113 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Top">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0"  Orientation="Vertical">
-            <ListView  x:Name="MainList" 
-              ItemsSource="{x:Bind PageViewModel.MenuItemsViewModel, Mode=OneWay}"  
-              SelectedIndex="{x:Bind PageViewModel.SelectedIndex, Mode=TwoWay}" 
-              
-              MinWidth="250" Margin="5">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="viewModels:MenuItemViewModel" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" Margin="0,0,10,0"/>
-                            <TextBlock Text="{x:Bind LikeCount, Mode=TwoWay}" Width="20" Margin="10,0,0,0"/>
-                            <TextBlock Text="{x:Bind DislikeCount, Mode=TwoWay}" Width="20" Margin="10,0,0,0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <!-- CoverFlow Row 0 -->
+        <!--
+        TODO: Add SelectedIndex property to CoverFlow control so we can bind it in TwoWay mode. 
+        -->
+        <controls:CoverFlow x:Name="CoverFlow" Grid.Row="0" Grid.ColumnSpan="3" Margin="8"
+                            ItemsSource="{x:Bind PageViewModel.MenuItemsViewModel, Mode=OneWay}" 
+                            SelectedIndex="{x:Bind PageViewModel.SelectedIndex, Mode=OneWay}"
+                            SpaceBetweenItems="200">
 
-        </StackPanel>
+            <controls:CoverFlow.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:MenuItemViewModel">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Image Grid.Row = "0" Source="{x:Bind ImageUrl, Mode = OneWay}" Width="400" Margin="0,100,0,0" />
+                        <!-- Add also the code of the meal item-->
+                        <!--<TextBlock Grid.Row = "1" Text="{x:Bind Name, Mode = OneWay}" FontWeight="Bold" FontSize="15" TextWrapping="WrapWholeWords"/>-->
+                    </Grid>
+                </DataTemplate>
+            </controls:CoverFlow.ItemTemplate>
+        </controls:CoverFlow>
 
-        <StackPanel Grid.Column="1" Orientation="Vertical">
+        <charts:PieChart x:Name="pieChart" Grid.Row="0" Grid.Column="3" Style="{StaticResource CommonPieChartStyle}"  >
+            <charts:PieChart.Legend>
+                <charts:Legend BorderThickness="2" FontSize="20" FontWeight="Bold"   />
+                        
+            </charts:PieChart.Legend>
 
-            <Charts:PieChart x:Name="pieChart"  Style="{StaticResource CommonPieChartStyle}" >
-                <Charts:PieChart.Legend>
-                    <Charts:Legend BorderThickness="1" />
-                </Charts:PieChart.Legend>
+            <charts:PieChart.Series>
+                <charts:Series >
 
-                <Charts:PieChart.Series>
-                    <Charts:Series DisplayName="Meniu Item:" >
+                    <charts:Series.Data>
+                        <charts:DataPointCollection>
+                            <charts:DataPoint Argument="Likes" Value="{x:Bind PageViewModel.SelectedMenuItem.LikeCount, Mode=OneWay, FallbackValue=1}" />
+                            <charts:DataPoint Argument="Dislikes" Value="{x:Bind PageViewModel.SelectedMenuItem.DislikeCount, Mode=OneWay, FallbackValue=1}" />
+                        </charts:DataPointCollection>
+                    </charts:Series.Data>
+                </charts:Series>
+            </charts:PieChart.Series>
+        </charts:PieChart>
 
-                        <Charts:Series.Data>
-                            <Charts:DataPointCollection>
-                                <Charts:DataPoint Argument="Likes" Value="{x:Bind PageViewModel.SelectedMenuItem.LikeCount, Mode=OneWay, FallbackValue=1}" />
-                                <Charts:DataPoint Argument="Dislikes" Value="{x:Bind PageViewModel.SelectedMenuItem.DislikeCount, Mode=OneWay, FallbackValue=1}" />
-                            </Charts:DataPointCollection>
-                        </Charts:Series.Data>
-
-                    </Charts:Series>
-                </Charts:PieChart.Series>
-
-            </Charts:PieChart>
-
-        </StackPanel>
-
+        <!--<Border BorderBrush="Gray" BorderThickness="2"  Grid.Column="3"/>-->
+        <StackPanel Grid.Row = "1" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="3"
+                   Orientation="Horizontal" HorizontalAlignment="Center">
+            
+            <TextBlock Text="{x:Bind PageViewModel.SelectedMenuItem.Code, Mode = OneWay}" 
+                       FontWeight="Bold"
+                       FontSize="50"
+                       HorizontalAlignment="Center"
+                       TextWrapping="WrapWholeWords"
+                       Margin="0,0,0,30"/>
+            
+            <TextBlock Text="{x:Bind PageViewModel.SelectedMenuItem.Name, Mode = OneWay}" 
+                   
+                       FontSize="50"
+                       HorizontalAlignment="Center"
+                       TextWrapping="WrapWholeWords"
+                       Margin="10,0,0,30"/>
+            </StackPanel>
     </Grid>
 </Page>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
  

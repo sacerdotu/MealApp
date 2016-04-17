@@ -62,6 +62,9 @@
         public static readonly DependencyProperty ZDistanceProperty =
             DependencyProperty.Register("ZDistance", typeof(double), typeof(CoverFlow), new PropertyMetadata(0.0d, new PropertyChangedCallback(CoverFlow.OnValuesChanged)));
 
+        //public static readonly DependencyProperty SelectedIndexProperty =
+        //    DependencyProperty.Register("SelectedIndex", typeof(int), typeof(CoverFlow), new PropertyMetadata(-1, new PropertyChangedCallback(CoverFlow.OnValuesChanged)));
+        
         #endregion
 
         public CoverFlow()

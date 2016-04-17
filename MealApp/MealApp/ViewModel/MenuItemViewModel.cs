@@ -27,6 +27,18 @@ namespace MealApp.ViewModel
             set { SetProperty(This.Name, value, () => This.Name = value); }
         }
 
+        public String ImageUrl
+        {
+            get { return This.ImageUrl; }
+            set { SetProperty(This.ImageUrl, value, () => This.ImageUrl = value); }
+        }
+
+        public String Code
+        {
+            get { return This.Code; }
+            set { SetProperty(This.Code, value, () => This.Code = value); }
+        }
+
         public int LikeCount
         {
             get { return This.LikeCount; }

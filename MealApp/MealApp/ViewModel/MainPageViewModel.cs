@@ -64,8 +64,6 @@ namespace MealApp.ViewModel
             _menuItemsViewModel = new ObservableCollection<MenuItemViewModel>();
 
             LoadData();
-
-            SelectedIndex = -1;
         }
 
         #region Data Handling Methods
@@ -76,10 +74,21 @@ namespace MealApp.ViewModel
             task.Wait();
 
             var list = task.Result;
+            if (list == null)
+            {
+                return;
+            }
+
+            int index = 0;
             foreach (var item in list)
             {
+                // TODO: Receive image from service.
+                item.ImageUrl = string.Format("/Assets/foodItem_{0}.jpg", index++ % 6);
+                item.FixStrings();
                 MenuItemsViewModel.Add(new MenuItemViewModel(item));
             }
+
+            SelectedIndex = 0;
         }
 
         #endregion

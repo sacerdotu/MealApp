@@ -115,17 +115,19 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="MealApp_TemporaryKey.pfx" />
+    <None Include="FirstTryInno_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\food2.jpg" />
-    <Content Include="Assets\food2.scale-100.jpg" />
-    <Content Include="Assets\food2.scale-125.jpg" />
-    <Content Include="Assets\food2.scale-150.jpg" />
-    <Content Include="Assets\food2.scale-200.jpg" />
-    <Content Include="Assets\food2.scale-400.jpg" />
-    <Content Include="Assets\FoodLogo.png" />
-    <Content Include="Assets\food1.jpg" />
+    <Content Include="Assets\foodItem_0.jpg" />
+    <Content Include="Assets\foodItem_1.jpg" />
+    <Content Include="Assets\foodItem_2.jpg" />
+    <Content Include="Assets\foodItem_3.jpg" />
+    <Content Include="Assets\foodItem_4.jpg" />
+    <Content Include="Assets\foodItem_5.jpg" />
+    <Content Include="Assets\logo.jpg" />
+    <Content Include="Assets\splashCommunity.png" />
+    <Content Include="Assets\splashCommunity.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -164,6 +166,12 @@
     <SDKReference Include="WindowsIoT, Version=10.0.10586.0">
       <Name>Windows IoT Extensions for the UWP %28WindowsIoT, Version=10.0.10586.0%29</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MealApp.Controls\MealApp.Controls.csproj">
+      <Project>{fa829c01-79b0-402b-9002-c7992d1930b8}</Project>
+      <Name>MealApp.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

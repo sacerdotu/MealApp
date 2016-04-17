@@ -13,16 +13,25 @@ namespace MealApp.Helpers
     {
         public static async Task<List<ProviderMenuItem>> GetAllProducts()
         {
-            var client = new HttpClient();
+            try
             {
-                using (var response = await client.GetAsync(WebApiLinks.ItemsFromToday))
+
+                var client = new HttpClient();
                 {
-                    if (response.IsSuccessStatusCode)
+                    var response =
+                        await client.GetAsync(string.Format(WebApiLinks.ItemsFromToday, WebApiLinks.BaseIPAddress));
+
                     {
-                        var productJsonString = await response.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<ProviderMenuItem[]>(productJsonString).ToList();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var productJsonString = await response.Content.ReadAsStringAsync();
+                            return JsonConvert.DeserializeObject<ProviderMenuItem[]>(productJsonString).ToList();
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
             }
             return null;
         }
@@ -30,32 +39,28 @@ namespace MealApp.Helpers
         public static async Task<ProviderMenuItem> UpdateProduct(long id, bool action)
         {
             var client = new HttpClient();
-            string URI = string.Format(WebApiLinks.LikeItemById, id);
+            string URI = string.Format(WebApiLinks.LikeItemById, WebApiLinks.BaseIPAddress, id);
             if (!action)
             {
-                URI = string.Format(WebApiLinks.DisLikeItemById, id);
+                URI = string.Format(WebApiLinks.DisLikeItemById, WebApiLinks.BaseIPAddress, id);
             }
-            var result = await client.PutAsync(URI, null);
-            if (result.IsSuccessStatusCode)
+
+            try
             {
-                var response = await client.GetAsync(string.Format(WebApiLinks.ItemFromTodayById, id));
-                if (response.IsSuccessStatusCode)
+                var result = await client.PutAsync(URI, null);
+                if (result.IsSuccessStatusCode)
                 {
-                    var productJsonString = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ProviderMenuItem>(productJsonString);
+                    var response = await client.GetAsync(string.Format(WebApiLinks.ItemFromTodayById, WebApiLinks.BaseIPAddress, id));
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var productJsonString = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<ProviderMenuItem>(productJsonString);
+                    }
                 }
             }
+            catch
+            { }
             return null;
         }
-
-
-        //private async void DeleteProduct()
-        //{
-        //    //using (var client = new HttpClient())
-        //    //{
-        //    //    var result = await client.DeleteAsync(String.Format("{0}/{1}", URI, 3));
-        //    //}
-        //    //GetAllProducts();
-        //}
     }
 }

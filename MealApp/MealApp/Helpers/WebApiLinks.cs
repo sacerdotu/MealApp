@@ -8,10 +8,10 @@ namespace MealApp.Helpers
 {
     public class WebApiLinks
     {
-        
-        public const string ItemsFromToday = "http://192.168.0.103:8765/api/providermenuitem/today";
-        public const string ItemFromTodayById = "http://192.168.0.103:8765/api/providermenuitem/{0}";
-        public const string LikeItemById = "http://192.168.0.103:8765/api/providermenuitem/like/{0}";
-        public const string DisLikeItemById = "http://192.168.0.103:8765/api/providermenuitem/dislike/{0}";
+        public const string BaseIPAddress = "http://192.168.192.201";
+        public const string ItemsFromToday =    "{0}/MealAppWebApi/api/providermenuitem/today";
+        public const string ItemFromTodayById = "{0}/MealAppWebApi/api/providermenuitem/{1}";
+        public const string LikeItemById =      "{0}/MealAppWebApi/api/providermenuitem/like/{1}";
+        public const string DisLikeItemById =   "{0}/MealAppWebApi/api/providermenuitem/dislike/{1}";
     }
 }

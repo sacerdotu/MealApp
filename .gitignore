@@ -7,3 +7,7 @@
 /FirstTryInno/FirstTryInno/MealApp.csproj.user
 /FirstTryInno/.vs/FirstTryInno/v14/.suo
 *.suo
+/MealApp/MealApp/bin
+/MealApp/MealApp/obj
+/MealApp/MealApp.Controls/obj
+/MealApp/MealApp.Controls/bin
